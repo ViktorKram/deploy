@@ -1,6 +1,7 @@
 FROM golang:alpine as build
 
 ENV CGO_ENABLED=1
+ENV CGO_CFLAGS="-D_LARGEFILE64_SOURCE"
 
 COPY . /project
 
