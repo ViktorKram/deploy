@@ -88,6 +88,10 @@ func run() error {
 		return c.NoContent(http.StatusCreated)
 	})
 
+	e.GET("/", func(c echo.Context) error {
+		return c.String(http.StatusOK, "Hello, World!")
+	})
+
 	ctx := context.Background()
 	ctx, cancel := signal.NotifyContext(ctx, os.Interrupt)
 	defer cancel()
