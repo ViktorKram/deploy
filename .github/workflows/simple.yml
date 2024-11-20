@@ -40,7 +40,7 @@ jobs:
       - name: Transfer bin file to server
         uses: appleboy/scp-action@master
         with:
-          host: 3217.16.27.70
+          host: 217.16.27.70
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           debug: true
