@@ -89,7 +89,7 @@ func run() error {
 	})
 
 	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World! I'm deployed!")
+		return c.String(http.StatusOK, "Hello, World! I'm deployed again!")
 	})
 
 	ctx := context.Background()
