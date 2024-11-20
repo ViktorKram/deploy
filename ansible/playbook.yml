@@ -25,6 +25,6 @@
     - name: "Copy nginx config"
       copy:
         src: files/frontend.conf
-        dest: /etc/nginx/sited-enabled/
+        dest: /etc/nginx/conf.d/
     - name: "Reload nginx"
       command: "nginx -s reload"
