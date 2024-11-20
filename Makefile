@@ -23,4 +23,4 @@ create-task:
 
 .PHONY: create-migration
 create-migration: bin/migrate
-	./bin/migrate create -ext sql -dir ./migrations -seq $(name)
+	./bin/migrate create -ext sql -dir ./migrations $(name)
