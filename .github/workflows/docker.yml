@@ -1,5 +1,9 @@
 name: Docker Build
 
+# 202411201117
+# 1.1.1 
+# abcde789
+
 on:
   push:
     branches: [master]
@@ -8,7 +12,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
       - name: Login to DockerHub Registry
         run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: Build Docker image
@@ -18,25 +22,25 @@ jobs:
           docker push dmitrydorofeev/godeploy:${GITHUB_SHA::8}
           docker push dmitrydorofeev/godeploy:latest
 
-  # deploy:
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   steps:
-  #     - name: pull docker image
-  #       uses: appleboy/ssh-action@master
-  #       with:
-  #         envs: GITHUB_SHA
-  #         host: 37.139.41.28
-  #         username: ubuntu
-  #         key: ${{ secrets.PRIVATE_KEY }}
-  #         script: sudo docker pull dmitrydorofeev/godeploy:${GITHUB_SHA::8}
-  #     - name: deploy docker image
-  #       uses: appleboy/ssh-action@master
-  #       with:
-  #         envs: GITHUB_SHA
-  #         host: 37.139.41.28
-  #         username: ubuntu
-  #         key: ${{ secrets.PRIVATE_KEY }}
-  #         script: |
-  #           sudo docker rm -f $(sudo docker ps -aq)
-  #           sudo docker run -e VERSION=${GITHUB_SHA::8} -d -p 8080:8080 dmitrydorofeev/godeploy:${GITHUB_SHA::8}
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: pull docker image
+        uses: appleboy/ssh-action@master
+        with:
+          envs: GITHUB_SHA
+          host: 217.16.27.70
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: sudo docker pull dmitrydorofeev/godeploy:${GITHUB_SHA::8}
+      - name: deploy docker image
+        uses: appleboy/ssh-action@master
+        with:
+          envs: GITHUB_SHA
+          host: 217.16.27.70
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: |
+            sudo docker rm -f $(sudo docker ps -aq)
+            sudo docker run -e VERSION=${GITHUB_SHA::8} -d -p 8080:8080 dmitrydorofeev/godeploy:${GITHUB_SHA::8}
