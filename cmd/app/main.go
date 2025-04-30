@@ -88,7 +88,7 @@ func run() error {
 	})
 
 	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World! v3")
+		return c.String(http.StatusOK, "Hello, World! v4")
 	})
 
 	ctx := context.Background()
