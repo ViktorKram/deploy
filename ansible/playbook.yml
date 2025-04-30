@@ -1,16 +1,17 @@
 ---
 - name: "Update systemd unit"
-  become: yes
+  become: true
   hosts: web
   tasks:
     - name: "Provide latest unit file"
       copy:
+        mode: "0644"
         src: files/api.service
         dest: /etc/systemd/system/api.service
     - name: "Systemctl daemon reload"
       command: systemctl daemon-reload
 - name: "Install docker"
-  become: yes
+  become: true
   hosts: all
   roles:
     - role: geerlingguy.docker
