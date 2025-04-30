@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"flag"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -89,7 +88,7 @@ func run() error {
 	})
 
 	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World! I'm deployed again with watchtower!")
+		return c.String(http.StatusOK, "Hello, World!")
 	})
 
 	ctx := context.Background()
@@ -104,7 +103,7 @@ func run() error {
 	})
 
 	g.Go(func() error {
-		fmt.Println("Starting service on http://127.0.0.1:8080")
+		log.Println("Starting service on http://127.0.0.1:8080")
 
 		err := e.Start(":8080")
 		if err != nil && err != http.ErrServerClosed {
