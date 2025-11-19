@@ -30,6 +30,8 @@ type Task struct {
 	UpdatedAt   sql.NullString `json:"updated_at" db:"updated_at"`
 }
 
+// ребилд
+
 var dbPath = flag.String("db", "./tasks.db", "path to database file")
 
 func main() {
