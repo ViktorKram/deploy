@@ -16,12 +16,12 @@ jobs:
       - name: Login to DockerHub Registry
         run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: Build Docker image
-        run: docker build -t dmitrydorofeev/godeploy:${GITHUB_SHA::8} -t dmitrydorofeev/godeploy:latest .
+        run: docker build -t viktorkram/lecture_repo:${GITHUB_SHA::8} -t viktorkram/lecture_repo:latest .
       - name: Push the image
         run: |
-          docker push dmitrydorofeev/godeploy:${GITHUB_SHA::8}
-          docker push dmitrydorofeev/godeploy:latest
-  #
+          docker push viktorkram/lecture_repo:${GITHUB_SHA::8}
+          docker push viktorkram/lecture_repo:latest
+  
   # deploy:
   #   runs-on: ubuntu-latest
   #   needs: build
@@ -30,17 +30,18 @@ jobs:
   #       uses: appleboy/ssh-action@master
   #       with:
   #         envs: GITHUB_SHA
-  #         host: 217.16.27.70
+  #         host: 87.239.109.190
   #         username: ubuntu
   #         key: ${{ secrets.PRIVATE_KEY }}
-  #         script: sudo docker pull dmitrydorofeev/godeploy:${GITHUB_SHA::8}
+  #         script: sudo docker pull viktorkram/lecture_repo:${GITHUB_SHA::8}
   #     - name: deploy docker image
   #       uses: appleboy/ssh-action@master
   #       with:
   #         envs: GITHUB_SHA
-  #         host: 217.16.27.70
+  #         host: 87.239.109.190
   #         username: ubuntu
   #         key: ${{ secrets.PRIVATE_KEY }}
   #         script: |
   #           sudo docker rm -f $(sudo docker ps -aq)
-  #           sudo docker run -e VERSION=${GITHUB_SHA::8} -d -p 8080:8080 dmitrydorofeev/godeploy:${GITHUB_SHA::8}
+  #           sudo docker run -e VERSION=latest -d -p 8080:8080 viktorkram/lecture_repo:latest
+  #           # sudo docker run -e VERSION=${GITHUB_SHA::8} -d -p 8080:8080 viktorkram/lecture_repo:${GITHUB_SHA::8}

@@ -15,6 +15,28 @@
   hosts: all
   roles:
     - role: geerlingguy.docker
+- name: "Setup watchtower"
+  become: true
+  hosts: all
+  tasks:
+    - name: "Stop old watchtower container if exists"
+      shell: docker stop watchtower || true
+      ignore_errors: yes
+    - name: "Remove old watchtower container if exists"
+      shell: docker rm watchtower || true
+      ignore_errors: yes
+    - name: "Pull watchtower image (compatible with Docker 29+)"
+      command: docker pull nickfedor/watchtower:latest
+    - name: "Run watchtower container"
+      command: >
+        docker run -d
+        --name watchtower
+        --restart unless-stopped
+        -v /var/run/docker.sock:/var/run/docker.sock
+        -e DOCKER_API_VERSION=1.44
+        nickfedor/watchtower:latest
+        --interval 30
+        --cleanup
 # - name: "Install nginx"
 #   become: yes
 #   hosts: web
