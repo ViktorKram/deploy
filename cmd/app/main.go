@@ -30,7 +30,7 @@ type Task struct {
 	UpdatedAt   sql.NullString `json:"updated_at" db:"updated_at"`
 }
 
-// ребилд
+// rebuild
 
 var dbPath = flag.String("db", "./tasks.db", "path to database file")
 
