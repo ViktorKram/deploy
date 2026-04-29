@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"time"
 
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/sqlite3"
@@ -27,7 +26,7 @@ type Task struct {
 	Description string         `json:"description" db:"description"`
 	Completed   bool           `json:"completed" db:"completed"`
 	DeletedAt   sql.NullString `json:"deleted_at" db:"deleted_at"`
-	UpdatedAt   sql.NullString `json:"updated_at" db:"updated_at"`
+	// UpdatedAt   sql.NullString `json:"updated_at" db:"updated_at"`
 }
 
 // rebuild
@@ -48,6 +47,7 @@ func run() error {
 		return err
 	}
 
+	// с ембедом
 	// migrationFS, err := fs.Sub(deploy.Migrations, "migrations")
 	// if err != nil {
 	// 	return err
@@ -64,6 +64,7 @@ func run() error {
 	// 	return err
 	// }
 
+	// без ембеда
 	m, err := migrate.New("file://migrations", "sqlite3://"+*dbPath)
 	if err != nil {
 		return err
@@ -101,21 +102,27 @@ func run() error {
 			task.ID = uuid.New()
 		}
 
-		task.UpdatedAt = sql.NullString{
-			Valid:  true,
-			String: time.Now().Format(time.RFC3339),
-		}
+		// task.UpdatedAt = sql.NullString{
+		// 	Valid:  true,
+		// 	String: time.Now().Format(time.RFC3339),
+		// }
 
-		_, err = db.NamedExecContext(ctx, "INSERT INTO tasks (id, title, description, completed, updated_at) VALUES (:id, :title, :description, :completed, :updated_at)", task)
+		_, err = db.NamedExecContext(ctx, "INSERT INTO tasks (id, title, description, completed) VALUES (:id, :title, :description, :completed)", task)
 		if err != nil {
 			return err
 		}
+
+		// // с updated_at
+		// _, err = db.NamedExecContext(ctx, "INSERT INTO tasks (id, title, description, completed, updated_at) VALUES (:id, :title, :description, :completed, :updated_at)", task)
+		// if err != nil {
+		// 	return err
+		// }
 
 		return c.NoContent(http.StatusCreated)
 	})
 
 	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World with Watchtower!")
+		return c.String(http.StatusOK, "Hello, World!")
 	})
 
 	ctx := context.Background()

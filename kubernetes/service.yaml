@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: godeploy
 spec:
-  type: LoadBalancer # ClusterIP, NodePort
+  type: ClusterIP # NodePort LoadBalancer
   selector:
     app: godeploy
   ports:

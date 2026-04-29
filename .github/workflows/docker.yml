@@ -1,26 +1,26 @@
-name: Docker Build
+# name: Docker Build
 
 # 202411201117
 # 1.1.1
 # abcde789
 
-on:
-  push:
-    branches: [master]
+# on:
+#   push:
+#     branches: [master]
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Login to DockerHub Registry
-        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-      - name: Build Docker image
-        run: docker build -t viktorkram/lecture_repo:${GITHUB_SHA::8} -t viktorkram/lecture_repo:latest .
-      - name: Push the image
-        run: |
-          docker push viktorkram/lecture_repo:${GITHUB_SHA::8}
-          docker push viktorkram/lecture_repo:latest
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - name: Login to DockerHub Registry
+#         run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+#       - name: Build Docker image
+#         run: docker build -t viktorkram/lecture_repo:${GITHUB_SHA::8} -t viktorkram/lecture_repo:latest .
+#       - name: Push the image
+#         run: |
+#           docker push viktorkram/lecture_repo:${GITHUB_SHA::8}
+#           docker push viktorkram/lecture_repo:latest
   
   # deploy:
   #   runs-on: ubuntu-latest
