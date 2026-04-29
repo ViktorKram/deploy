@@ -4,6 +4,7 @@ on:
   push:
     branches: [master]
 
+# пайплайн CD состоит из джоб
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,7 +29,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build
+    needs: build # указываем, чтобы обозначить зависимость
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -61,10 +62,10 @@ jobs:
           username: ubuntu
           key: ${{ secrets.PRIVATE_KEY }}
           script: chmod 755 /home/ubuntu/bin/app
-      # - name: restart service
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: 87.239.109.190
-      #     username: ubuntu
-      #     key: ${{ secrets.PRIVATE_KEY }}
-      #     script: sudo systemctl restart api.service
+      - name: restart service
+        uses: appleboy/ssh-action@master
+        with:
+          host: 87.239.109.190
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: sudo systemctl restart api.service
