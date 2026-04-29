@@ -48,6 +48,22 @@ func run() error {
 		return err
 	}
 
+	// migrationFS, err := fs.Sub(deploy.Migrations, "migrations")
+	// if err != nil {
+	// 	return err
+	// }
+
+	// driver, err := iofs.New(migrationFS, ".")
+	// if err != nil {
+	// 	return err
+	// }
+
+	// // m, err := migrate.New("file://migrations", "sqlite3://"+*dbPath)
+	// m, err := migrate.NewWithSourceInstance("iofs", driver, "sqlite3://"+*dbPath)
+	// if err != nil {
+	// 	return err
+	// }
+
 	m, err := migrate.New("file://migrations", "sqlite3://"+*dbPath)
 	if err != nil {
 		return err

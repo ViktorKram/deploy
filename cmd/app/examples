@@ -1,0 +1,2 @@
+curl -XPOST http://localhost:8080/tasks/ -H 'Content-Type: application/json' -d '{"title": "test", "description": "test"}'
+ansible-playbook -i ./ansible/inventory ./ansible/playbook.yml 
